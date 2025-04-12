@@ -8,7 +8,7 @@
 # define ANS_RESET   "\x1b[0m"
 
 // (memory.c)
-void	*memset(void *s, int c, size_t n);
+void	*ft_memset(void *s, int c, size_t n);
 
 // (string.c)
 size_t	ft_strlen(const char *s);

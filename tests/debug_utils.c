@@ -5,7 +5,7 @@ int	mem_is_same(const void *s1, const void *s2, size_t len)
 {
 	const unsigned char	*p1;
 	const unsigned char	*p2;
-	int					i;
+	size_t				i;
 
 	p1 = s1;
 	p2 = s2;
