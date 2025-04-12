@@ -2,19 +2,19 @@
 #include "memory_utils.h"
 #include <stdint.h>
 
-size_t	word_size()
+size_t	word_size(void)
 {
 	return (sizeof(size_t));
 }
 
-size_t	word_mask()
+size_t	word_mask(void)
 {
 	return (sizeof(size_t) - 1);
 }
 
-int		is_mem_aligned(unsigned char *p)
+int	is_mem_aligned(unsigned char *p)
 {
-	return(((uintptr_t) p & word_mask()) == 0);
+	return (((uintptr_t) p & word_mask()) == 0);
 }
 
 size_t	uchar_to_word(unsigned char c)

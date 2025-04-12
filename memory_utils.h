@@ -4,8 +4,8 @@
 # include <stdlib.h>
 
 // (memory_utils.c)
-size_t		word_size();
-size_t		word_mask();
+size_t		word_size(void);
+size_t		word_mask(void);
 size_t		uchar_to_word(unsigned char c);
 int			is_mem_aligned(unsigned char *p);
 
