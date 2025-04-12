@@ -1,5 +1,6 @@
 
 #include "libft.h"
+#include "memory_utils.h"
 
 static unsigned char	*align_ptr(unsigned char *p, int c, size_t *n)
 {

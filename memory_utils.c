@@ -1,17 +1,17 @@
 
 #include "memory_utils.h"
 
-static int	word_size()
+int	word_size()
 {
 	return (sizeof(size_t));
 }
 
-static int	word_mask()
+int	word_mask()
 {
 	return (sizeof(size_t) - 1);
 }
 
-static size_t	uchar_to_word(unsigned char c)
+size_t	uchar_to_word(unsigned char c)
 {
 	size_t	word;
 
