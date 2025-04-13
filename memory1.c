@@ -104,15 +104,8 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	const unsigned char	*src_char;
-	const size_t		*src_word;
-	unsigned char		*dst_char;
-	size_t				*dst_word;
-
 	if (dest > src)
-	{
-		return (ft_memcpy_backwards(dest, src, n))
-	}
+		return (ft_memcpy_backwards(dest, src, n));
 	else
 		return (ft_memcpy(dest, src, n));
 }
