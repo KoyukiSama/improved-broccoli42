@@ -2,53 +2,74 @@
 #include "libft.h"
 #include "memory_utils.h"
 
-static unsigned char	*align_ptr(unsigned char *p, int c, size_t *n)
-{
-	unsigned char	byte;
-
-	byte = (unsigned char) c;
-	while (!is_mem_aligned(p) && *n > 0)
-	{
-		*p++ = byte;
-		(*n)--;
-	}
-	return (p);
-}
-
-static unsigned char	*set_words(unsigned char *p, int c, size_t *n)
-{
-	size_t	word;
-	size_t	*wptr;
-
-	word = uchar_to_word((unsigned char) c);
-	wptr = (size_t *) p;
-	while (*n >= word_size())
-	{
-		*wptr++ = word;
-		*n -= word_size();
-	}
-	return ((unsigned char *) wptr);
-}
-
-static unsigned char	*cleanup_block(unsigned char *p, int c, size_t *n)
-{
-	unsigned char	byte;
-
-	byte = (unsigned char) c;
-	while ((*n)--)
-	{
-		*p++ = byte;
-	}
-	return (p);
-}
-
 void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned char	*p;
+	unsigned char	*p_char;
+	size_t			*p_word;
+	size_t			word;
+	unsigned char	byte;
 
-	p = (unsigned char *) s;
-	p = align_ptr(p, c, &n);
-	p = set_words(p, c, &n);
-	cleanup_block(p, c, &n);
+	byte = (unsigned char) c;
+	p_char = (unsigned char *) s;
+	while (!is_mem_aligned(p_char) && n-- > 0)
+		*p_char++ = byte;
+	word = uchar_to_word(byte);
+	p_word = (size_t *) p_char;
+	while (n >= word_size())
+	{
+		*p_word++ = word;
+		n -= word_size();
+	}
+	p_char = (unsigned char *) p_word;
+	while (n--)
+		*p_char++ = byte;
 	return (s);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	const unsigned char	*src_char;
+	const size_t		*src_word;
+	unsigned char		*dst_char;
+	size_t				*dst_word;
+
+	src_char = (unsigned char *) src;
+	dst_char = (unsigned char *) dest;
+	while (!is_mem_aligned(dst_char) && n-- > 0)
+		*dst_char++ = *src_char++;
+	if (is_mem_aligned(dst_char) && is_mem_aligned(src_char))
+	{
+		src_word = (size_t *) src_char;
+		dst_word = (size_t *) dst_char;
+		while (n >= word_size())
+		{
+			*dst_word++ = *src_word++;
+			n -= word_size();
+		}
+		src_char = (unsigned char *) src_word;
+		dst_char = (unsigned char *) dst_word;
+	}
+	while (n--)
+		*dst_char++ = *src_char++;
+	return (dest);
+}
+
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
+{
+	const unsigned char	*src_char;
+	unsigned char		*dst_char;
+	unsigned char		byte;
+
+	src_char = (unsigned char *) src;
+	dst_char = (unsigned char *) dest;
+	byte = (unsigned char) c;
+	while (n--)
+	{
+        *dst_char = *src_char;
+        if (*src_char == byte)
+            return (void *) (dst_char + 1);
+        dst_char++;
+        src_char++;
+    }
+    return (NULL);
 }
