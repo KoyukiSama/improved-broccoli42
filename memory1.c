@@ -109,3 +109,56 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	else
 		return (ft_memcpy(dest, src, n));
 }
+
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	const unsigned char	*src_char;
+	unsigned char		byte;
+
+	src_char = (unsigned char *) s;
+	byte = (unsigned char) c;
+	while (n--)
+	{
+		if (*src_char == byte)
+			return ((void *) src_char);
+		src_char++;
+	}
+	return (NULL);
+}
+
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	const unsigned char	*s1_char;
+	const size_t		*s1_word;
+	const unsigned char	*s2_char;
+	const size_t		*s2_word;
+
+	s1_char = (unsigned char *) s1;
+	s2_char = (unsigned char *) s2;
+	while (!is_mem_aligned(s1_char) && n-- > 0 && *s1_char == *s2_char)
+	{
+		s1_char++;
+		s2_char++;
+	}
+	if (is_mem_aligned(s1_char) && is_mem_aligned(s2_char))
+	{
+		s1_word = (size_t *) s1_char;
+		s2_word = (size_t *) s2_char;
+		while (n >= word_size() && *s1_word == *s2_word)
+		{
+			s1_word++;
+			s2_word++;
+			n -= word_size();
+		}
+		s1_char = (unsigned char *) s1_word;
+		s2_char = (unsigned char *) s2_word;
+	}
+	while (n-- && *s1_char == *s2_char)
+	{
+		s1_char++;
+		s2_char++;
+	}
+	if (!n)
+		return (0);
+	return (*s1_char - *s2_char);
+}
